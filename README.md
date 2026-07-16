@@ -17,7 +17,7 @@ tagged as a **camt.052** Bank-to-Customer Account Report, ready for
 every downstream consumer in the suite (writer, validator, MCP and LSP
 servers).
 
-> **Latest release: v0.0.13.** SWIFT MT942 (the intraday sibling of
+> **Latest release: v0.0.14.** SWIFT MT942 (the intraday sibling of
 > MT940) is scheduled for retirement in **November 2028**. This loader
 > bridges the window where banks still produce MT942 but downstream
 > tooling expects camt.052.

@@ -9,6 +9,22 @@ suite (`camt053`, `camt053-mcp`, `camt053-lsp`, `camt053-writer-xlsx`,
 `camt053-loader-mt940`); a `0.0.X` release of this package targets the
 `0.0.X` release of `camt053`.
 
+## [0.0.14] - 2026-07-16
+
+### Fixed
+
+- **Stress-suite worker exception handling** (`tests/test_stress.py`)
+  — the concurrent-conversion worker now catches `Exception` instead
+  of `BaseException`, mirroring the identical fix in `camt053` core
+  (CodeQL `py/catch-base-exception`). The worker only collects
+  conversion/assertion failures; `KeyboardInterrupt`/`SystemExit`
+  were never meant to be swallowed.
+
+### Changed
+
+- **Version** — suite-wide lockstep bump to `0.0.14`, targeting the
+  `0.0.14` release of `camt053`. No functional changes to the loader.
+
 ## [0.0.13] - 2026-07-16
 
 ### Added
