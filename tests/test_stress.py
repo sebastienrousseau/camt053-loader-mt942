@@ -136,7 +136,7 @@ def test_sustained_concurrent_conversions_zero_errors_and_p95() -> None:
     thread contention) must stay under the generous ceiling.
     """
     payload = _representative_mt942()
-    errors: list[BaseException] = []
+    errors: list[Exception] = []
     latencies: list[float] = []
 
     def _worker() -> None:
@@ -148,7 +148,7 @@ def test_sustained_concurrent_conversions_zero_errors_and_p95() -> None:
                 assert doc.message_type == "camt.052.001.08"
                 assert doc.msg_id == "INTRA-STRESS-1"
                 assert len(doc.statements[0].entries) == 10
-            except BaseException as exc:  # noqa: B036 - stress harness
+            except Exception as exc:
                 errors.append(exc)
             finally:
                 latencies.append(time.perf_counter() - started)
