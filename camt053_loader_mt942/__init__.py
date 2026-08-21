@@ -19,6 +19,6 @@ validator, MCP and LSP servers) then work without further changes.
 
 from camt053_loader_mt942.loader import parse_mt942
 
-__version__ = "0.0.14"
+__version__ = "0.0.16"
 
 __all__ = ["parse_mt942", "__version__"]
