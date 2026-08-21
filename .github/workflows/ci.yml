@@ -10,6 +10,26 @@ permissions:
   contents: read
 
 jobs:
+  # This package published 0.0.1, 0.0.13, 0.0.14 and 0.0.16 with no
+  # releases/ directory at all, because unlike its sibling loaders its
+  # release workflow never required one. The notes are backfilled now;
+  # this keeps them from falling behind again.
+  release-notes:
+    name: Release Notes Present
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Every version must have release notes
+        run: |
+          set -euo pipefail
+          VERSION=$(grep -E '^version' pyproject.toml | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
+          NOTE_PATH="releases/v${VERSION}.md"
+          if [ ! -f "$NOTE_PATH" ]; then
+            echo "::error::pyproject.toml declares ${VERSION} but ${NOTE_PATH} does not exist."
+            exit 1
+          fi
+          echo "Found ${NOTE_PATH} for version ${VERSION}"
+
   test:
     name: Test (Python ${{ matrix.python-version }})
     runs-on: ubuntu-latest
