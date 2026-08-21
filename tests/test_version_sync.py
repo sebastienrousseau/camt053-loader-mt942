@@ -31,15 +31,17 @@ def _pyproject_version() -> str:
 
 def test_dunder_version_is_semver() -> None:
     """The package version must be a plain X.Y.Z."""
-    assert _SEMVER_RE.match(camt053_loader_mt942.__version__), (
-        f"__version__ is {camt053_loader_mt942.__version__!r}, which is not X.Y.Z"
+    version = camt053_loader_mt942.__version__
+    assert _SEMVER_RE.match(version), (
+        f"__version__ is {version!r}, which is not X.Y.Z"
     )
 
 
 def test_dunder_version_matches_pyproject() -> None:
     """The two declarations must not drift apart."""
-    assert camt053_loader_mt942.__version__ == _pyproject_version(), (
-        f"__version__ is {camt053_loader_mt942.__version__!r} but pyproject.toml says "
-        f"{_pyproject_version()!r} — one of them was bumped and the other "
-        f"was not"
+    version = camt053_loader_mt942.__version__
+    declared = _pyproject_version()
+    assert version == declared, (
+        f"__version__ is {version!r} but pyproject.toml says "
+        f"{declared!r} — one was bumped and the other was not"
     )
