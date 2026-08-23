@@ -4,7 +4,7 @@ version = "0.0.16"
 description = "Convert legacy SWIFT MT942 interim transaction reports to camt.052 ParsedDocument."
 readme = "README.md"
 requires-python = ">=3.10"
-license = "Apache-2.0"
+license = "Apache-2.0 OR MIT"
 authors = [{ name = "Sebastien Rousseau", email = "sebastian.rousseau@gmail.com" }]
 keywords = [
     "iso20022",
