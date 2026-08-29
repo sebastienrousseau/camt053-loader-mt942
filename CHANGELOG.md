@@ -9,6 +9,36 @@ suite (`camt053`, `camt053-mcp`, `camt053-lsp`, `camt053-writer-xlsx`,
 `camt053-loader-mt940`); a `0.0.X` release of this package targets the
 `0.0.X` release of `camt053`.
 
+## [0.0.20] - 2026-08-29
+
+Aligns the `camt053` suite on one version number, and adds the gates this
+repository was missing.
+
+### Added
+
+- `benches/bench_parse_mt942.py` measures parse throughput along the two
+  axes that actually move: entries per report (the busy hour) and
+  reports per file (many accounts polled at once). It prints a growth
+  exponent for each, because a parser that has gone superlinear looks
+  healthy on a ten-entry fixture and falls over on a payroll run. Both
+  axes currently measure linear.
+- `docs/benchmarks.md` explaining what the two axes mean and why the
+  exponent is the number to read rather than `ns/entry` at the smallest
+  size.
+- `scripts/check_suite_consistency.py` and a scheduled `Suite
+  Consistency` workflow comparing this tree, and every published member
+  of the suite, against PyPI.
+- `tests/test_suite_conformance.py`, the shared suite conformance gate.
+- `SECURITY.md`, written for a parsing library: the whole attack surface
+  is the untrusted text it is handed, and an intraday report's size is
+  not under the caller's control.
+
+### Changed
+
+- Version aligned to `0.0.20` across all six `camt053` packages, which
+  had drifted to `0.0.18`, `0.0.18`, `0.0.19`, `0.0.18`, `0.0.16` and
+  `0.0.16`.
+
 ## [0.0.16] - 2026-08-21
 
 Suite release with `camt053` 0.0.16. No functional change in this
