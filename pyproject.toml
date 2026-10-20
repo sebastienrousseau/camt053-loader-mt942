@@ -117,3 +117,10 @@ strict = true
 [[tool.mypy.overrides]]
 module = "camt053.*"
 ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+# tomli is the 3.10 fallback for tomllib in scripts/check_suite_consistency.py.
+# mypy targets 3.10 and so checks that branch, but CI type-checks on 3.12,
+# where requirements/ci.txt does not install tomli.
+module = "tomli"
+ignore_missing_imports = true
