@@ -108,7 +108,7 @@ jobs:
       # scripts/check_complexity.py is left out: radon ships no type
       # information, and the alternative is a suppression.
       - name: Mypy
-        run: mypy camt053_loader_mt942/ scripts/check_suite_consistency.py
+        run: mypy camt053_loader_mt942/ scripts/check_suite_consistency.py scripts/verify_versions.py
 
       # Per function: cyclomatic <= 10, cognitive <= 15, Halstead
       # difficulty <= 30, <= 60 lines; <= 500 lines per file. Offenders

@@ -1,0 +1,26 @@
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+cff-version: 1.2.0
+message: "If you use camt053-loader-mt942 in research or production write-ups, please cite it as below."
+type: software
+title: "camt053-loader-mt942: SWIFT MT942 to ISO 20022 camt.052 loader"
+abstract: >-
+  A Python library that converts legacy SWIFT MT942 interim transaction
+  reports into the camt053 ParsedDocument model as ISO 20022 camt.052
+  Bank-to-Customer Account Reports, so every consumer in the camt053 suite
+  reads MT942 the same way it reads native camt.052.
+authors:
+  - family-names: Rousseau
+    given-names: Sebastien
+    email: sebastian.rousseau@gmail.com
+version: "0.0.20"
+date-released: "2026-08-29"
+license: "Apache-2.0 OR MIT"
+repository-code: "https://github.com/sebastienrousseau/camt053-loader-mt942"
+url: "https://pypi.org/project/camt053-loader-mt942/"
+keywords:
+  - ISO 20022
+  - camt.052
+  - MT942
+  - SWIFT
+  - interim transaction report
+  - bank statements
