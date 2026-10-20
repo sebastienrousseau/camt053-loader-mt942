@@ -10,8 +10,8 @@ Security fixes are applied to the latest released version on PyPI and the
 
 | Version | Supported |
 |---------|-----------|
-| `0.0.20` | Latest released `0.0.x` only |
-| < `0.0.20` | No |
+| `0.0.23` | Latest released `0.0.x` only |
+| < `0.0.23` | No |
 
 A longer-term support window will be announced here once `1.0.0` ships.
 

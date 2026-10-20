@@ -12,6 +12,66 @@ suite (`camt053`, `camt053-mcp`, `camt053-lsp`, `camt053-writer-xlsx`,
 `camt053-loader-mt940`); a `0.0.X` release of this package targets the
 `0.0.X` release of `camt053`.
 
+## [0.0.23] - 2026-10-20
+
+Suite release with `camt053` 0.0.23, which releases first. Two parser
+fixes, and the gates and documents this repository was missing.
+
+### Fixed
+
+- **`:61:` supplementary details no longer leak into the servicer
+  reference.** Line 2 of a `:61:` (subfield 9) was joined onto line 1
+  before matching, so `REF1//CREF1` followed by `/OCMT/EUR500,00/` gave
+  `account_servicer_ref="CREF1/OCMT/EUR500,00/"`. The reference is now
+  `CREF1`, and the supplementary details are kept as the entry's first
+  `TransactionDetails`, ahead of any `:86:` text. This changes the
+  returned document for entries that carry a line 2: their `details`
+  list gains that item at the front. Entries without one are unchanged.
+- **CRLF reports parse identically to LF.** `parse_mt942` documented
+  CRLF tolerance but left `\r` inside multi-line `:61:` and `:86:`
+  values.
+- The scheduled **Suite Consistency** job compared this tree with the
+  `camt053` core's PyPI version, so mid-release (core out, this package
+  bumped but not tagged) it did not report this package's missing
+  release. It is now the suite's shared script, comparing the tree with
+  this package's own release while still requiring every member to
+  publish the core's version.
+- The README rendered on PyPI said "Latest release: v0.0.14" in 0.0.16
+  and 0.0.20. `scripts/verify_versions.py` now checks every version
+  source on each pull request.
+- Six source files, both shipped modules among them, declared
+  `Apache-2.0` only although the package is `Apache-2.0 OR MIT`. Every
+  file now carries REUSE 3.3 SPDX lines, checked by `reuse lint`; the
+  Apache-only trove classifier is dropped.
+
+### Added
+
+- A complexity gate (`scripts/check_complexity.py`, CI and `make
+  complexity`): per function cyclomatic 10, cognitive 15, Halstead
+  difficulty 30 and 60 lines, 500 lines per file, against
+  `complexity-baseline.json`, which can only shrink. Its one entry,
+  `parse_mt942`, was refactored under the ceilings (no behaviour
+  change), so the baseline is empty.
+- OpenSSF Scorecard, DCO, dependency-audit (`pip-audit`) and
+  version-source workflows; Dependabot version updates for pip and
+  GitHub Actions.
+- `CITATION.cff`, `CODE_OF_CONDUCT.md`, pull request and issue
+  templates, a `Makefile` whose `make check` runs every CI gate, a
+  rendered demo (`make demo`), `docs/index.md`, `docs/POLICIES.md` and
+  `docs/COMPARISON.md`.
+
+### Changed
+
+- Version aligned to `0.0.23` with the rest of the suite.
+- `camt053` floor raised to `>=0.0.20` (from `>=0.0.16`), the newest
+  core release when this branch was cut.
+- Every GitHub Action is pinned by commit SHA, CI installs from
+  hash-pinned `requirements/*.txt`, and the release builds with a pinned
+  hatchling, attaches SLSA build provenance and names the GitHub release
+  `camt053-loader-mt942 <version>`.
+- The README follows the suite template; `docs/benchmarks.md` is now
+  `docs/BENCHMARKS.md`, with results measured on 2026-10-20.
+
 ## [0.0.20] - 2026-08-29
 
 Aligns the `camt053` suite on one version number, and adds the gates this
