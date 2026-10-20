@@ -48,6 +48,7 @@ dev = [
     "radon >= 6.0",
     "complexipy >= 8.1",
     "reuse >= 5.0",
+    "hypothesis >= 6.100",
 ]
 
 [project.urls]

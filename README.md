@@ -281,8 +281,10 @@ a 100% line and branch coverage gate, the 100% docstring gate, the
 complexity ceilings against `complexity-baseline.json`, `reuse lint`, the
 version-source check, the benchmark and the examples. CI also runs the
 test matrix on Python 3.10 to 3.14, `pip-audit` over the pinned
-requirements, CodeQL, OpenSSF Scorecard and a daily suite-consistency check
-against PyPI. There are no fuzz targets yet. See
+requirements, CodeQL, OpenSSF Scorecard, Atheris fuzzing of `parse_mt942`
+(two minutes per change, 30 minutes weekly) and a daily suite-consistency
+check against PyPI. Hypothesis property tests in the suite assert the same
+contract: a document or a `ValueError`, never another exception. See
 [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ---
@@ -294,7 +296,8 @@ text format with no XML envelope, so the XXE and entity-expansion surface
 lives in the `camt053` core (defusedxml and its XML guard), not here. Field
 regexes are anchored, and parse time is linear in input size (see
 [Benchmarks](#benchmarks)). A malformed report raises `ValueError` rather
-than returning partial data. Releases are built by a hash-pinned toolchain
+than returning partial data, and fuzzing (Atheris, coverage-guided, on
+every change) holds the parser to raising nothing else. Releases are built by a hash-pinned toolchain
 from a signed tag and published with PyPI trusted publishing and SLSA build
 provenance.
 

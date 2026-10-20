@@ -7,7 +7,7 @@
 .PHONY: help dev test lint format type-check complexity reuse versions audit bench examples build demo check clean
 
 PYTHON ?= python3
-SRC := camt053_loader_mt942/ tests/ examples/ benches/ scripts/
+SRC := camt053_loader_mt942/ tests/ examples/ benches/ scripts/ fuzz/
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
@@ -33,7 +33,7 @@ type-check: ## mypy --strict on the package and the stdlib-only scripts
 
 complexity: ## Complexity ceilings against complexity-baseline.json
 	$(PYTHON) scripts/check_complexity.py
-	complexipy camt053_loader_mt942 scripts benches examples --max-complexity-allowed 15 --quiet
+	complexipy camt053_loader_mt942 scripts benches examples fuzz --max-complexity-allowed 15 --quiet
 
 reuse: ## REUSE 3.3 licensing check
 	reuse lint
@@ -44,6 +44,7 @@ versions: ## Every version source agrees with pyproject.toml
 audit: ## pip-audit over the pinned requirements (needs requirements/audit.txt)
 	pip-audit -r requirements/ci.txt --require-hashes --disable-pip --progress-spinner off
 	pip-audit -r requirements/build.txt --require-hashes --disable-pip --progress-spinner off
+	pip-audit -r requirements/fuzz.txt --require-hashes --disable-pip --progress-spinner off
 
 bench: ## Run the benchmark (quick mode, as CI does)
 	$(PYTHON) benches/bench_parse_mt942.py --quick

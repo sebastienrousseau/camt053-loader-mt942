@@ -35,6 +35,9 @@ its keep.
 - `tests/test_check_complexity.py`, `tests/test_check_suite_consistency.py`
   and `tests/test_verify_versions.py` — the repository's own gates, so a gate
   that stops catching anything fails here first.
+- `tests/test_fuzz.py` — Hypothesis property tests: any input either parses
+  or raises `ValueError`. `fuzz/fuzz_parse_mt942.py` is the coverage-guided
+  Atheris counterpart CI runs (Linux x86_64 only).
 - `tests/test_suite_conformance.py` — shared across all 32 repositories in
   the suite. **Do not edit it here.** It is generated from one canonical copy,
   and a local edit fails `test_this_file_is_the_canonical_copy` by design;

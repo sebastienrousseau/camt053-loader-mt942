@@ -52,6 +52,9 @@ fixes, and the gates and documents this repository was missing.
   `complexity-baseline.json`, which can only shrink. Its one entry,
   `parse_mt942`, was refactored under the ceilings (no behaviour
   change), so the baseline is empty.
+- Fuzzing: an Atheris harness (`fuzz/fuzz_parse_mt942.py`, two minutes
+  per change, 30 minutes weekly) and Hypothesis property tests, both
+  holding `parse_mt942` to returning a document or raising `ValueError`.
 - OpenSSF Scorecard, DCO, dependency-audit (`pip-audit`) and
   version-source workflows; Dependabot version updates for pip and
   GitHub Actions.

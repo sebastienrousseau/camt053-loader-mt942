@@ -100,10 +100,10 @@ jobs:
           pip install --no-deps -e .
 
       - name: Ruff check
-        run: ruff check camt053_loader_mt942/ tests/ examples/ benches/ scripts/
+        run: ruff check camt053_loader_mt942/ tests/ examples/ benches/ scripts/ fuzz/
 
       - name: Ruff format check
-        run: ruff format --check camt053_loader_mt942/ tests/ examples/ benches/ scripts/
+        run: ruff format --check camt053_loader_mt942/ tests/ examples/ benches/ scripts/ fuzz/
 
       # Every file carries SPDX copyright and licence lines (REUSE 3.3);
       # REUSE.toml covers the files that cannot hold a comment.
@@ -122,7 +122,7 @@ jobs:
       - name: Complexity
         run: |
           python scripts/check_complexity.py
-          complexipy camt053_loader_mt942 scripts benches examples --max-complexity-allowed 15 --quiet
+          complexipy camt053_loader_mt942 scripts benches examples fuzz --max-complexity-allowed 15 --quiet
 
   # Advisory audit of every pinned version CI installs: the runtime
   # dependency and the whole toolchain. --disable-pip audits the pins as
@@ -145,6 +145,6 @@ jobs:
 
       - name: Audit the pinned requirements
         run: |
-          for req in requirements/ci.txt requirements/build.txt; do
+          for req in requirements/ci.txt requirements/build.txt requirements/fuzz.txt; do
             pip-audit -r "$req" --require-hashes --disable-pip --progress-spinner off
           done
