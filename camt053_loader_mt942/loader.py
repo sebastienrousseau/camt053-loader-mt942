@@ -60,7 +60,8 @@ mapped to an :class:`~camt053.models.Entry` with
 from __future__ import annotations
 
 import re
-from collections.abc import Iterator
+from collections.abc import Callable, Iterator
+from dataclasses import dataclass, field
 
 from camt053.models import (
     Account,
@@ -304,6 +305,90 @@ def _format_yymmdd_with_year_hint(
 # ─── Top-level parser ───────────────────────────────────────────────────────
 
 
+@dataclass
+class _Report:
+    """What :func:`parse_mt942` has read so far."""
+
+    statement: Statement = field(default_factory=Statement)
+    msg_id: str | None = None
+    creation_dt: str | None = None
+    have_account: bool = False
+    have_seq: bool = False
+    last_entry: Entry | None = None
+
+
+def _on_reference(report: _Report, tag: str, value: str) -> None:
+    """``:20:`` transaction reference number."""
+    report.msg_id = value or None
+
+
+def _on_account(report: _Report, tag: str, value: str) -> None:
+    """``:25:`` account identification."""
+    report.statement.account = _parse_account(value)
+    report.have_account = True
+
+
+def _on_sequence(report: _Report, tag: str, value: str) -> None:
+    """``:28C:`` statement / sequence number."""
+    report.statement.electronic_seq_nb = value
+    report.statement.id = value
+    report.have_seq = True
+
+
+def _on_datetime(report: _Report, tag: str, value: str) -> None:
+    """``:13D:`` date/time indication: the report timestamp."""
+    report.creation_dt = _parse_datetime_indication(value)
+    report.statement.creation_date_time = report.creation_dt
+
+
+def _on_floor_limit(report: _Report, tag: str, value: str) -> None:
+    """``:34F:`` floor limit indicator."""
+    report.statement.balances.append(_parse_floor_limit(value))
+
+
+def _on_summary(report: _Report, tag: str, value: str) -> None:
+    """``:90D:`` / ``:90C:`` number and sum of entries."""
+    report.statement.balances.append(_parse_summary(value, tag))
+
+
+def _on_entry(report: _Report, tag: str, value: str) -> None:
+    """``:61:`` statement line."""
+    entry = _parse_entry(value)
+    report.statement.entries.append(entry)
+    report.last_entry = entry
+
+
+def _on_information(report: _Report, tag: str, value: str) -> None:
+    """``:86:`` information to account owner, for the preceding entry."""
+    _attach_additional_info(report.last_entry, value)
+
+
+# Unknown tags have no handler and are silently ignored, so future SWIFT
+# additions do not break parsing; the loader follows Postel's law here.
+_HANDLERS: dict[str, Callable[[_Report, str, str], None]] = {
+    "20": _on_reference,
+    "25": _on_account,
+    "28C": _on_sequence,
+    "13D": _on_datetime,
+    "34F": _on_floor_limit,
+    "90D": _on_summary,
+    "90C": _on_summary,
+    "61": _on_entry,
+    "86": _on_information,
+}
+
+
+def _require_mandatory_fields(report: _Report) -> str:
+    """Return the ``:20:`` reference, or raise for a missing mandatory tag."""
+    if report.msg_id is None:
+        raise ValueError("MT942 payload missing required :20: reference")
+    if not report.have_account:
+        raise ValueError("MT942 payload missing required :25: account")
+    if not report.have_seq:
+        raise ValueError("MT942 payload missing required :28C: sequence number")
+    return report.msg_id
+
+
 def parse_mt942(text: str) -> ParsedDocument:
     """Parse an MT942 payload into a :class:`~camt053.models.ParsedDocument`.
 
@@ -326,51 +411,17 @@ def parse_mt942(text: str) -> ParsedDocument:
             not match the expected format. The error message identifies
             the offending field.
     """
-    statement = Statement()
-    msg_id: str | None = None
-    creation_dt: str | None = None
-    have_account = False
-    have_seq = False
-    last_entry: Entry | None = None
-
+    report = _Report()
     for tag, value in _iter_fields(text):
-        if tag == "20":
-            msg_id = value or None
-        elif tag == "25":
-            statement.account = _parse_account(value)
-            have_account = True
-        elif tag == "28C":
-            statement.electronic_seq_nb = value
-            statement.id = value
-            have_seq = True
-        elif tag == "13D":
-            creation_dt = _parse_datetime_indication(value)
-            statement.creation_date_time = creation_dt
-        elif tag == "34F":
-            statement.balances.append(_parse_floor_limit(value))
-        elif tag in {"90D", "90C"}:
-            statement.balances.append(_parse_summary(value, tag))
-        elif tag == "61":
-            entry = _parse_entry(value)
-            statement.entries.append(entry)
-            last_entry = entry
-        elif tag == "86":
-            _attach_additional_info(last_entry, value)
-        # Unknown tags are silently ignored so future SWIFT additions
-        # do not break parsing; the loader follows Postel's law here.
-
-    if msg_id is None:
-        raise ValueError("MT942 payload missing required :20: reference")
-    if not have_account:
-        raise ValueError("MT942 payload missing required :25: account")
-    if not have_seq:
-        raise ValueError("MT942 payload missing required :28C: sequence number")
-
+        handler = _HANDLERS.get(tag)
+        if handler is not None:
+            handler(report, tag, value)
+    msg_id = _require_mandatory_fields(report)
     return ParsedDocument(
         message_type=MESSAGE_TYPE,
         msg_id=msg_id,
-        creation_date_time=creation_dt,
-        statements=[statement],
+        creation_date_time=report.creation_dt,
+        statements=[report.statement],
     )
 
 
