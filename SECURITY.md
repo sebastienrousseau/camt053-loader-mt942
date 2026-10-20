@@ -83,6 +83,18 @@ handed:
 - Keep `camt053-loader-mt942`, `camt053`, and the Python interpreter
   patched.
 
+## Verifying a release
+
+Releases are built in GitHub Actions from a signed tag, by the hash-pinned
+toolchain in `requirements/build.txt`, and published with PyPI trusted
+publishing. Each distribution carries SLSA build provenance:
+
+```sh
+gh attestation verify camt053_loader_mt942-<version>-py3-none-any.whl \
+  -R sebastienrousseau/camt053-loader-mt942
+git tag -v v<version>   # the signed annotated tag
+```
+
 ## Credits
 
 We will credit reporters who follow this policy in release notes and the

@@ -34,8 +34,31 @@ accounts hands over one file containing many reports.
 Both should be linear. The benchmark prints a growth exponent for each:
 1.0 is linear, 2.0 quadratic. A parser that goes superlinear — because
 some lookup rescans the entries already parsed — looks perfectly healthy
-on a fixture of ten entries and falls over on the busy hour. On current
-`main` both axes measure at 1.00 and 1.09.
+on a fixture of ten entries and falls over on the busy hour.
+
+## Results
+
+Measured with `python benches/bench_parse_mt942.py` on 2026-10-20 (Apple
+A18 Pro, Python 3.12.15, camt053 0.0.20):
+
+| Entries per report | ms | ns/entry |
+| ---: | ---: | ---: |
+| 10 | 0.09 | 8,971 |
+| 100 | 0.56 | 5,585 |
+| 1,000 | 6.32 | 6,316 |
+| 5,000 | 34.68 | 6,936 |
+
+Growth exponent 0.96: linear.
+
+| Reports per file (20 entries each) | ms | us/report |
+| ---: | ---: | ---: |
+| 1 | 0.13 | 125.1 |
+| 10 | 1.28 | 127.7 |
+| 50 | 8.21 | 164.2 |
+| 200 | 31.61 | 158.0 |
+
+Growth exponent 1.04: linear. The 0.0.20 release measured 1.00 and 1.09
+on the same two axes.
 
 ## Reading the output
 

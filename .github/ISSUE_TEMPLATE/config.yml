@@ -1,0 +1,7 @@
+# SPDX-FileCopyrightText: 2023-2026 Sebastien Rousseau <sebastian.rousseau@gmail.com>
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/sebastienrousseau/camt053-loader-mt942/security/advisories/new
+    about: Report security issues privately as described in SECURITY.md, not in a public issue.

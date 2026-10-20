@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 
 # Licensing for files that cannot carry a comment header (generated
-# lockfiles, JSON, and the citation file whose comment line is not a
-# copyright notice). Checked by `reuse lint`.
+# requirements, JSON, binary media, and the citation file whose comment
+# line is not a copyright notice). Checked by `reuse lint`.
 version = 1
 
 [[annotations]]
@@ -11,6 +11,7 @@ path = [
   "requirements/*.txt",
   "complexity-baseline.json",
   "CITATION.cff",
+  ".github/demo.gif",
 ]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2023-2026 Sebastien Rousseau <sebastian.rousseau@gmail.com>"
