@@ -16,3 +16,6 @@ mypy>=1.11,<3
 interrogate>=1.7
 packaging>=23.0
 tomli>=2.0 ; python_version < "3.11"
+# Complexity gate: scripts/check_complexity.py (radon + complexipy).
+radon>=6.0
+complexipy>=8.1

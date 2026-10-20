@@ -1,0 +1,6 @@
+{
+  "camt053_loader_mt942/loader.py::parse_mt942": {
+    "cyclomatic": 14,
+    "lines": 68
+  }
+}

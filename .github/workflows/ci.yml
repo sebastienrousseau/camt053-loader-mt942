@@ -105,8 +105,19 @@ jobs:
       - name: Ruff format check
         run: ruff format --check camt053_loader_mt942/ tests/ examples/ benches/ scripts/
 
+      # scripts/check_complexity.py is left out: radon ships no type
+      # information, and the alternative is a suppression.
       - name: Mypy
-        run: mypy camt053_loader_mt942/ scripts/
+        run: mypy camt053_loader_mt942/ scripts/check_suite_consistency.py
+
+      # Per function: cyclomatic <= 10, cognitive <= 15, Halstead
+      # difficulty <= 30, <= 60 lines; <= 500 lines per file. Offenders
+      # that predate the gate are recorded in complexity-baseline.json,
+      # which may only shrink.
+      - name: Complexity
+        run: |
+          python scripts/check_complexity.py
+          complexipy camt053_loader_mt942 scripts benches examples --max-complexity-allowed 15 --quiet
 
   # Advisory audit of every pinned version CI installs: the runtime
   # dependency and the whole toolchain. --disable-pip audits the pins as
