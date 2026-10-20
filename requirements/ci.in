@@ -21,5 +21,8 @@ radon>=6.0
 complexipy>=8.1
 # Licensing gate: `reuse lint` (REUSE 3.3).
 reuse>=5.0
+# reuse detects encodings with python-magic, which needs the system libmagic
+# (absent on stock macOS); charset-normalizer is its pure-Python fallback.
+charset-normalizer>=3.0
 # Property-based fuzzing: tests/test_fuzz.py.
 hypothesis>=6.100
