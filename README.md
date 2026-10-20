@@ -298,8 +298,8 @@ regexes are anchored, and parse time is linear in input size (see
 [Benchmarks](#benchmarks)). A malformed report raises `ValueError` rather
 than returning partial data, and fuzzing (Atheris, coverage-guided, on
 every change) holds the parser to raising nothing else. Releases are built by a hash-pinned toolchain
-from a signed tag and published with PyPI trusted publishing and SLSA build
-provenance.
+from a signed tag and published with PyPI trusted publishing, SLSA build
+provenance and keyless sigstore signatures.
 
 Report vulnerabilities according to [`SECURITY.md`](SECURITY.md).
 

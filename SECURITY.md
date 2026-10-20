@@ -95,6 +95,17 @@ gh attestation verify camt053_loader_mt942-<version>-py3-none-any.whl \
 git tag -v v<version>   # the signed annotated tag
 ```
 
+Each file on the GitHub release also has a keyless sigstore signature
+(`.sig`) and certificate (`.pem`):
+
+```sh
+cosign verify-blob camt053_loader_mt942-<version>-py3-none-any.whl \
+  --signature camt053_loader_mt942-<version>-py3-none-any.whl.sig \
+  --certificate camt053_loader_mt942-<version>-py3-none-any.whl.pem \
+  --certificate-identity-regexp 'https://github.com/sebastienrousseau/camt053-loader-mt942/' \
+  --certificate-oidc-issuer https://token.actions.githubusercontent.com
+```
+
 ## Credits
 
 We will credit reporters who follow this policy in release notes and the

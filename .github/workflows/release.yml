@@ -66,6 +66,24 @@ jobs:
           attestations: true
           skip-existing: true
 
+      # Keyless sigstore signatures (Fulcio + Rekor via the workflow's OIDC
+      # identity, no secrets) for every distribution, attached to the GitHub
+      # release as .sig + .pem. After the PyPI upload, so only the
+      # distributions themselves reach PyPI.
+      - name: Install cosign
+        uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
+        with:
+          cosign-release: "v2.4.3"
+
+      - name: Sign distributions (keyless)
+        run: |
+          for f in dist/*; do
+            cosign sign-blob --yes \
+              --output-signature "${f}.sig" \
+              --output-certificate "${f}.pem" \
+              "$f"
+          done
+
       # Release titles are "<project> <version>" with no leading v; the tag
       # keeps its v. The notes are replaced by the release handover script
       # with the Highlights / What's Changed / Checksums layout.

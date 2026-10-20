@@ -70,8 +70,9 @@ fixes, and the gates and documents this repository was missing.
   core release when this branch was cut.
 - Every GitHub Action is pinned by commit SHA, CI installs from
   hash-pinned `requirements/*.txt`, and the release builds with a pinned
-  hatchling, attaches SLSA build provenance and names the GitHub release
-  `camt053-loader-mt942 <version>`.
+  hatchling, attaches SLSA build provenance, signs every distribution
+  with keyless sigstore (`.sig` and `.pem` on the GitHub release) and
+  names the GitHub release `camt053-loader-mt942 <version>`.
 - The README follows the suite template; `docs/benchmarks.md` is now
   `docs/BENCHMARKS.md`, with results measured on 2026-10-20.
 
