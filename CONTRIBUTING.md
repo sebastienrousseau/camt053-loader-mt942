@@ -1,3 +1,6 @@
+<!-- SPDX-FileCopyrightText: 2023-2026 Sebastien Rousseau <sebastian.rousseau@gmail.com> -->
+<!-- SPDX-License-Identifier: Apache-2.0 OR MIT -->
+
 # Contributing
 
 Thanks for looking. This package is small on purpose: it turns an MT942

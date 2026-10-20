@@ -1,3 +1,6 @@
+<!-- SPDX-FileCopyrightText: 2023-2026 Sebastien Rousseau <sebastian.rousseau@gmail.com> -->
+<!-- SPDX-License-Identifier: Apache-2.0 OR MIT -->
+
 # Benchmarks
 
 `parse_mt942` is handed the one input whose size the caller does not

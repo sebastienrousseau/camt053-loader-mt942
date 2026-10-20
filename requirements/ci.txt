@@ -81,6 +81,11 @@ attrs==26.1.0 \
     #   interrogate
     #   jsonschema
     #   referencing
+    #   reuse
+boolean-py==5.0 \
+    --hash=sha256:60cbc4bad079753721d32649545505362c754e121570ada4658b852a3a318d95 \
+    --hash=sha256:ef28a70bd43115208441b53a045d1549e2f0ec6e3d08a9d142cbc41c1938e8d9
+    # via license-expression
 camt053==0.0.20 \
     --hash=sha256:1f3bf89f3b69184d78d331a354b9537a38f2237a4daa52c520fa6ab57f16dc78 \
     --hash=sha256:22e89754463d00373a50efd24123e77ccc34ff1ebd9e9608902ee133f66ca9ec
@@ -199,6 +204,7 @@ click==8.5.0 \
     # via
     #   camt053
     #   interrogate
+    #   reuse
     #   uvicorn
 colorama==0.4.6 \
     --hash=sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44 \
@@ -681,7 +687,9 @@ interrogate==1.7.0 \
 jinja2==3.1.6 \
     --hash=sha256:0137fb05990d35f1275a587e9aee6d56da821fc83491a0fb838183be43f66d6d \
     --hash=sha256:85ece4451f492d0c13c5dd7c13a64681a86afae63a5f347908daf103ce6d2f67
-    # via camt053
+    # via
+    #   camt053
+    #   reuse
 jsonschema==4.26.0 \
     --hash=sha256:0c26707e2efad8aa1bfc5b7ce170f3fccc2e4918ff85989ba9ffa9facb2be326 \
     --hash=sha256:d489f15263b8d200f8387e64b4c3a75f06629559fb73deb8fdfb525f2dab50ce
@@ -829,6 +837,10 @@ librt==0.16.0 ; platform_python_implementation != 'PyPy' \
     --hash=sha256:fe52bf4641069e7978a14253b036cb9002def1926317e710f2e249f8a8c47742 \
     --hash=sha256:ff7baa55f8e7c69851419e50a666015d02a74198716fd45c0125a2112e0a389f
     # via mypy
+license-expression==30.4.4 \
+    --hash=sha256:421788fdcadb41f049d2dc934ce666626265aeccefddd25e162a26f23bcbf8a4 \
+    --hash=sha256:73448f0aacd8d0808895bdc4b2c8e01a8d67646e4188f887375398c761f340fd
+    # via reuse
 mando==0.7.1 \
     --hash=sha256:18baa999b4b613faefb00eac4efadcf14f510b59b924b66e08289aa1de8c3500 \
     --hash=sha256:26ef1d70928b6057ee3ca12583d73c63e05c49de8972d620c278a7b206581a8a
@@ -1242,10 +1254,18 @@ pytest-cov==7.1.0 \
     --hash=sha256:30674f2b5f6351aa09702a9c8c364f6a01c27aae0c1366ae8016160d1efc56b2 \
     --hash=sha256:a0461110b7865f9a271aa1b51e516c9a95de9d696734a2f71e3e78f46e1d4678
     # via -r requirements/ci.in
+python-debian==1.1.1 \
+    --hash=sha256:f98ae013e8e5310e49041cc3860a7105df73af73d4ff1d8afb474770d328a6ad \
+    --hash=sha256:fe4fc3dc798dbf1f0ef5865e2b1b4f7cc0352b6a511b25ab7594906c64a73629
+    # via reuse
 python-dotenv==1.2.4 \
     --hash=sha256:42269a8a5b3fd54ffa6f3d84b18abed50064717576b4ecf03dc4a55d8aa04fdc \
     --hash=sha256:f0d53e69935a851c0dcc78f3ab7aaccd8cabef0b92382b576b824212902873c0
     # via uvicorn
+python-magic==0.4.27 \
+    --hash=sha256:c1ba14b08e4a5f5c31a302b7721239695b2f0f058d125bd5ce1ee36b9d9d3c3b \
+    --hash=sha256:c212960ad306f700aa0d01e5d7a325d20548ff97eb9920dcd29513174f0294d3
+    # via reuse
 pyyaml==6.0.3 \
     --hash=sha256:00c4bdeba853cc34e7dd471f16b4114f4162dc03e6b7afcc2128711f0eca823c \
     --hash=sha256:0150219816b6a1fa26fb4699fb7daa9caf09eb1999f3b70fb6e786805e80375a \
@@ -1331,6 +1351,10 @@ referencing==0.37.0 \
     # via
     #   jsonschema
     #   jsonschema-specifications
+reuse==6.2.0 \
+    --hash=sha256:12b68549bb9d5f4957f06d726a83a9780628810008fb732bb0d0f21607f8c6d6 \
+    --hash=sha256:4feae057a2334c9a513e6933cdb9be819d8b822f3b5b435a36138bd218897d23
+    # via -r requirements/ci.in
 rich==15.0.0 \
     --hash=sha256:33bd4ef74232fb73fe9279a257718407f169c09b78a87ad3d296f548e27de0bb \
     --hash=sha256:edd07a4824c6b40189fb7ac9bc4c52536e9780fbbfbddf6f1e2502c31b068c36
@@ -1694,6 +1718,10 @@ tomli==2.5.0 ; python_full_version <= '3.11' \
     #   interrogate
     #   mypy
     #   pytest
+tomlkit==0.15.2 \
+    --hash=sha256:05562412163a3037b94497385fb7f9204c637bc605af7a48199e41cf2272f437 \
+    --hash=sha256:83e32755ba1d20d9340bd069ee97e9f6232ba2346b63ffcba425de01f7e327a6
+    # via reuse
 typing-extensions==4.16.0 \
     --hash=sha256:481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8 \
     --hash=sha256:dc983d19a509c94dba722ee6abd33940f7c05a89e243c47e907eb4db6f1a43e5

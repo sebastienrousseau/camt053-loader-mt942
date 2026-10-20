@@ -1,3 +1,6 @@
+<!-- SPDX-FileCopyrightText: 2023-2026 Sebastien Rousseau <sebastian.rousseau@gmail.com> -->
+<!-- SPDX-License-Identifier: Apache-2.0 OR MIT -->
+
 # camt053-loader-mt942: MT942 → camt.052 loader
 
 <p align="center">

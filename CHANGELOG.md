@@ -1,3 +1,6 @@
+<!-- SPDX-FileCopyrightText: 2023-2026 Sebastien Rousseau <sebastian.rousseau@gmail.com> -->
+<!-- SPDX-License-Identifier: Apache-2.0 OR MIT -->
+
 # Changelog
 
 All notable changes to this project will be documented in this file.

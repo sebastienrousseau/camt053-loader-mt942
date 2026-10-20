@@ -105,6 +105,11 @@ jobs:
       - name: Ruff format check
         run: ruff format --check camt053_loader_mt942/ tests/ examples/ benches/ scripts/
 
+      # Every file carries SPDX copyright and licence lines (REUSE 3.3);
+      # REUSE.toml covers the files that cannot hold a comment.
+      - name: REUSE licensing check
+        run: reuse lint
+
       # scripts/check_complexity.py is left out: radon ships no type
       # information, and the alternative is a suppression.
       - name: Mypy
