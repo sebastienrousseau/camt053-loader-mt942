@@ -131,7 +131,10 @@ def _iter_fields(text: str) -> Iterator[tuple[str, str]]:
     Values may span multiple lines; everything after a ``:tag:`` head
     up to (but not including) the next ``:tag:`` head is the value,
     with the leading tag stripped and trailing whitespace normalised.
+    CRLF line endings are read as LF first, so a multi-line value is
+    identical whichever ending the bank used.
     """
+    text = text.replace("\r\n", "\n")
     matches = list(_FIELD_HEAD_RE.finditer(text))
     for index, match in enumerate(matches):
         tag = match.group(1)
@@ -191,15 +194,23 @@ def _parse_summary(value: str, tag: str) -> Balance:
 
 
 def _parse_entry(value: str) -> Entry:
-    """Parse a :61: statement line into an :class:`~camt053.models.Entry`."""
-    # Reference details after the amount/code can be split on `//`
-    # (bank ref // customer ref). Both halves are optional.
-    match = _LINE_RE.match(value.replace("\n", ""))
+    """Parse a :61: statement line into an :class:`~camt053.models.Entry`.
+
+    Line 1 carries subfields 1-8 (dates, mark, amount, type, references).
+    An optional line 2 is subfield 9, *Supplementary Details*; it is kept
+    as the entry's first :class:`~camt053.models.TransactionDetails`, so
+    it neither leaks into a reference nor is dropped.
+    """
+    line, _, supplementary = value.partition("\n")
+    match = _LINE_RE.match(line)
     if not match:
         raise ValueError(f"Malformed :61: statement line {value!r}")
     indicator, is_reversal = _DC_TO_CAMT[match.group("dc")]
+    # The references after the amount/code split on `//` (account owner
+    # ref // servicer ref). Both halves are optional.
     rest = match.group("rest") or ""
     bank_ref, _, customer_ref = rest.partition("//")
+    supplementary = supplementary.strip()
     return Entry(
         reference=bank_ref.strip() or None,
         amount=match.group("amt").replace(",", "."),
@@ -211,6 +222,11 @@ def _parse_entry(value: str) -> Entry:
         value_date=_format_yymmdd(match.group("vdate")),
         account_servicer_ref=customer_ref.strip() or None,
         reversal_indicator=is_reversal,
+        details=(
+            [TransactionDetails(additional_info=supplementary)]
+            if supplementary
+            else []
+        ),
     )
 
 
