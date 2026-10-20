@@ -1,0 +1,8 @@
+# SPDX-FileCopyrightText: 2023-2026 Sebastien Rousseau <sebastian.rousseau@gmail.com>
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+# Advisory audit for the CI "Audit" job, which runs pip-audit over the
+# hash-pinned ci.txt (the runtime dependency and the whole toolchain).
+# Regenerate:
+#   uv pip compile --generate-hashes --universal --python-version 3.10 \
+#     requirements/audit.in -o requirements/audit.txt
+pip-audit>=2.9

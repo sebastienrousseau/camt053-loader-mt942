@@ -1,0 +1,18 @@
+# SPDX-FileCopyrightText: 2023-2026 Sebastien Rousseau <sebastian.rousseau@gmail.com>
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+# CI test + lint toolchain, hash-pinned in ci.txt so every `pip install` in
+# .github/workflows is pinned (OpenSSF Scorecard Pinned-Dependencies). The
+# package itself installs with `--no-deps` on top of this, so its runtime
+# dependency is listed here too. Keep in step with the `dev` extra in
+# pyproject.toml.
+# Regenerate:
+#   uv pip compile --generate-hashes --universal --python-version 3.10 \
+#     requirements/ci.in -o requirements/ci.txt
+camt053>=0.0.20,<1
+pytest>=9.0.3,<10
+pytest-cov>=6.0.0,<8
+ruff>=0.17,<0.18
+mypy>=1.11,<3
+interrogate>=1.7
+packaging>=23.0
+tomli>=2.0 ; python_version < "3.11"
