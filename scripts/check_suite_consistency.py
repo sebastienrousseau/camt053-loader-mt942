@@ -35,6 +35,7 @@ import sys
 import urllib.error
 import urllib.request
 from pathlib import Path
+from typing import Any
 
 if sys.version_info >= (3, 11):
     import tomllib
@@ -52,6 +53,10 @@ MEMBERS = (
     "camt053-loader-mt942",
     "camt053-writer-xlsx",
 )
+
+#: The member this checkout builds. The script was copied from the core,
+#: where this and ``MEMBERS[0]`` are the same; here they are not.
+THIS = "camt053-loader-mt942"
 
 TIMEOUT = 30
 
@@ -74,20 +79,21 @@ def tree_version() -> str:
     return str(poetry.get("version") or data["project"]["version"])
 
 
-def check() -> tuple[list[str], dict[str, object]]:
+def check() -> tuple[list[str], dict[str, Any]]:
     """Return (problems, report)."""
     problems: list[str] = []
     tree = tree_version()
     published = {name: published_version(name) for name in MEMBERS}
 
     core_published = published[MEMBERS[0]]
+    this_published = published[THIS]
 
-    # 1. The tree must not disagree with what was released. A bump that
-    #    was never tagged looks exactly like this and nothing else
-    #    notices.
-    if core_published and core_published != tree:
+    # 1. The tree must not disagree with what this repository released. A
+    #    bump that was never tagged looks exactly like this and nothing
+    #    else notices.
+    if this_published and this_published != tree:
         problems.append(
-            f"{MEMBERS[0]}: tree is {tree} but PyPI has {core_published}. "
+            f"{THIS}: tree is {tree} but PyPI has {this_published}. "
             f"Either the release was never tagged, or the tree is behind."
         )
 
@@ -119,7 +125,7 @@ def main() -> int:
         print()
     else:
         print(f"tree version: {report['tree']}")
-        for name, version in report["published"].items():  # type: ignore[union-attr]
+        for name, version in report["published"].items():
             print(f"  {name:34} {version}")
         if problems:
             print("\nproblems:")

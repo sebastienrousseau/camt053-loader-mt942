@@ -106,7 +106,7 @@ jobs:
         run: ruff format --check camt053_loader_mt942/ tests/ examples/ benches/ scripts/
 
       - name: Mypy
-        run: mypy camt053_loader_mt942/
+        run: mypy camt053_loader_mt942/ scripts/
 
   # Advisory audit of every pinned version CI installs: the runtime
   # dependency and the whole toolchain. --disable-pip audits the pins as
