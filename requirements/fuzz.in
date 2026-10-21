@@ -1,0 +1,10 @@
+# SPDX-FileCopyrightText: 2023-2026 Sebastien Rousseau <sebastian.rousseau@gmail.com>
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+# Atheris fuzz job (.github/workflows/fuzz.yml): the runtime dependency and
+# atheris. Atheris ships Linux x86_64 wheels only, so this is compiled for
+# that platform.
+# Regenerate:
+#   uv pip compile --generate-hashes --python-platform x86_64-manylinux_2_17 \
+#     --python-version 3.12 requirements/fuzz.in -o requirements/fuzz.txt
+camt053>=0.0.23,<1
+atheris>=2.3

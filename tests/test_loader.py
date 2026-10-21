@@ -1,5 +1,5 @@
-# SPDX-License-Identifier: Apache-2.0
-# Copyright (C) 2023-2026 Sebastien Rousseau. All rights reserved.
+# SPDX-FileCopyrightText: 2023-2026 Sebastien Rousseau <sebastian.rousseau@gmail.com>
+# SPDX-License-Identifier: Apache-2.0 OR MIT
 
 """Tests for the camt053-loader-mt942 loader."""
 
@@ -382,3 +382,47 @@ def test_balances_list_holds_only_proprietary_interim_codes() -> None:
     balances: list[Balance] = statement.balances
     for balance in balances:
         assert balance.type_code.startswith(("FLIM", "SUM"))
+
+
+# ─── Line endings and :61: supplementary details ─────────────────────────────
+
+
+def _payload_with_continuation_lines() -> str:
+    """A report whose :61: and :86: both run onto a second line."""
+    return (
+        ":20:INTRA-2\n"
+        ":25:DE89370400440532013000\n"
+        ":28C:7/1\n"
+        ":61:2606210621C500,00NMSCREF1//CREF1\n"
+        "/OCMT/EUR500,00/\n"
+        ":86:Customer payment\n"
+        "invoice 123\n"
+        ":61:2606210621D200,00NMSCREF2//CREF2\n"
+        ":86:Card settlement\n"
+    )
+
+
+def test_crlf_parses_identically_to_lf() -> None:
+    """The docstring promises CRLF/LF tolerance; continuation lines too."""
+    lf = parse_mt942(_payload_with_continuation_lines())
+    crlf = parse_mt942(_payload_with_continuation_lines().replace("\n", "\r\n"))
+    assert crlf.to_dict() == lf.to_dict()
+
+
+def test_supplementary_details_stay_out_of_the_servicer_reference() -> None:
+    """Line 2 of :61: is subfield 9, not part of the servicer reference."""
+    doc = parse_mt942(_payload_with_continuation_lines())
+    entry = doc.statements[0].entries[0]
+    assert entry.reference == "REF1"
+    assert entry.account_servicer_ref == "CREF1"
+
+
+def test_supplementary_details_are_kept_ahead_of_tag_86() -> None:
+    """Subfield 9 is carried as a detail, not dropped, before the :86:."""
+    doc = parse_mt942(_payload_with_continuation_lines())
+    first, second = doc.statements[0].entries
+    assert [d.additional_info for d in first.details] == [
+        "/OCMT/EUR500,00/",
+        "Customer payment\ninvoice 123",
+    ]
+    assert [d.additional_info for d in second.details] == ["Card settlement"]

@@ -1,5 +1,5 @@
-# SPDX-License-Identifier: Apache-2.0
-# Copyright (C) 2023-2026 Sebastien Rousseau. All rights reserved.
+# SPDX-FileCopyrightText: 2023-2026 Sebastien Rousseau <sebastian.rousseau@gmail.com>
+# SPDX-License-Identifier: Apache-2.0 OR MIT
 
 """MT942 → camt.052 loader for the camt053 suite.
 
@@ -19,6 +19,6 @@ validator, MCP and LSP servers) then work without further changes.
 
 from camt053_loader_mt942.loader import parse_mt942
 
-__version__ = "0.0.20"
+__version__ = "0.0.23"
 
 __all__ = ["parse_mt942", "__version__"]

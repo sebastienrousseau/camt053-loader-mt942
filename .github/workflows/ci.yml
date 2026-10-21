@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2023-2026 Sebastien Rousseau <sebastian.rousseau@gmail.com>
+# SPDX-License-Identifier: Apache-2.0 OR MIT
 name: CI
 
 on:
@@ -18,7 +20,9 @@ jobs:
     name: Release Notes Present
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - name: Every version must have release notes
         run: |
           set -euo pipefail
@@ -38,26 +42,27 @@ jobs:
       matrix:
         python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: ${{ matrix.python-version }}
-          cache: "pip"
 
-      - name: Install dev dependencies
+      # The runtime dependency and the test toolchain come hash-pinned from
+      # requirements/ci.txt; the package itself goes on with --no-deps, so
+      # nothing in this job resolves an unpinned version.
+      - name: Install this package
         run: |
-          python -m pip install --upgrade pip
-          pip install -e ".[dev]"
+          pip install --require-hashes -r requirements/ci.txt
+          pip install --no-deps -e .
 
+      # The pyproject addopts enforce --cov-branch --cov-fail-under=100, so a
+      # coverage regression fails the build here.
       - name: Run tests with 100% coverage gate
-        run: |
-          pytest tests/ \
-            --cov=camt053_loader_mt942 --cov-branch \
-            --cov-report=term-missing \
-            --cov-report=xml \
-            --cov-fail-under=100
+        run: pytest tests/ --cov-report=xml
 
       # Not a timing gate -- wall-clock is not comparable between
       # runners. This proves the benchmark still runs against the
@@ -80,24 +85,66 @@ jobs:
     name: Lint & Type Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.12"
-          cache: "pip"
 
-      - name: Install dev dependencies
+      - name: Install this package
         run: |
-          python -m pip install --upgrade pip
-          pip install -e ".[dev]"
+          pip install --require-hashes -r requirements/ci.txt
+          pip install --no-deps -e .
 
       - name: Ruff check
-        run: ruff check camt053_loader_mt942/ tests/ examples/ benches/ scripts/
+        run: ruff check camt053_loader_mt942/ tests/ examples/ benches/ scripts/ fuzz/
 
       - name: Ruff format check
-        run: ruff format --check camt053_loader_mt942/ tests/ examples/ benches/ scripts/
+        run: ruff format --check camt053_loader_mt942/ tests/ examples/ benches/ scripts/ fuzz/
 
+      # Every file carries SPDX copyright and licence lines (REUSE 3.3);
+      # REUSE.toml covers the files that cannot hold a comment.
+      - name: REUSE licensing check
+        run: reuse lint
+
+      # scripts/check_complexity.py is left out: radon ships no type
+      # information, and the alternative is a suppression.
       - name: Mypy
-        run: mypy camt053_loader_mt942/
+        run: mypy camt053_loader_mt942/ scripts/check_suite_consistency.py scripts/verify_versions.py
+
+      # Per function: cyclomatic <= 10, cognitive <= 15, Halstead
+      # difficulty <= 30, <= 60 lines; <= 500 lines per file. Offenders
+      # that predate the gate are recorded in complexity-baseline.json,
+      # which may only shrink.
+      - name: Complexity
+        run: |
+          python scripts/check_complexity.py
+          complexipy camt053_loader_mt942 scripts benches examples fuzz --max-complexity-allowed 15 --quiet
+
+  # Advisory audit of every pinned version CI installs: the runtime
+  # dependency and the whole toolchain. --disable-pip audits the pins as
+  # written instead of resolving them again.
+  audit:
+    name: Dependency audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+
+      - name: Install pip-audit (hash-pinned)
+        run: pip install --require-hashes -r requirements/audit.txt
+
+      - name: Audit the pinned requirements
+        run: |
+          for req in requirements/ci.txt requirements/build.txt requirements/fuzz.txt; do
+            pip-audit -r "$req" --require-hashes --disable-pip --progress-spinner off
+          done

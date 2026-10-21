@@ -1,3 +1,6 @@
+<!-- SPDX-FileCopyrightText: 2023-2026 Sebastien Rousseau <sebastian.rousseau@gmail.com> -->
+<!-- SPDX-License-Identifier: Apache-2.0 OR MIT -->
+
 # Security Policy
 
 ## Supported versions
@@ -7,8 +10,8 @@ Security fixes are applied to the latest released version on PyPI and the
 
 | Version | Supported |
 |---------|-----------|
-| `0.0.20` | Latest released `0.0.x` only |
-| < `0.0.20` | No |
+| `0.0.23` | Latest released `0.0.x` only |
+| < `0.0.23` | No |
 
 A longer-term support window will be announced here once `1.0.0` ships.
 
@@ -79,6 +82,29 @@ handed:
   about logging parsed structures verbatim.
 - Keep `camt053-loader-mt942`, `camt053`, and the Python interpreter
   patched.
+
+## Verifying a release
+
+Releases are built in GitHub Actions from a signed tag, by the hash-pinned
+toolchain in `requirements/build.txt`, and published with PyPI trusted
+publishing. Each distribution carries SLSA build provenance:
+
+```sh
+gh attestation verify camt053_loader_mt942-<version>-py3-none-any.whl \
+  -R sebastienrousseau/camt053-loader-mt942
+git tag -v v<version>   # the signed annotated tag
+```
+
+Each file on the GitHub release also has a keyless sigstore signature
+(`.sig`) and certificate (`.pem`):
+
+```sh
+cosign verify-blob camt053_loader_mt942-<version>-py3-none-any.whl \
+  --signature camt053_loader_mt942-<version>-py3-none-any.whl.sig \
+  --certificate camt053_loader_mt942-<version>-py3-none-any.whl.pem \
+  --certificate-identity-regexp 'https://github.com/sebastienrousseau/camt053-loader-mt942/' \
+  --certificate-oidc-issuer https://token.actions.githubusercontent.com
+```
 
 ## Credits
 
