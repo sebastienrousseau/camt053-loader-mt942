@@ -92,10 +92,14 @@ def test_an_improvement_must_shrink_the_baseline() -> None:
     baseline = {"a.py::f": {"cyclomatic": 12, "lines": 70}}
     problems = _gate().compare({"a.py::f": {"cyclomatic": 11}}, baseline)
     assert problems == [
-        "a.py::f: cyclomatic improved from 12 to 11; "
-        "run with --update to shrink the baseline",
-        "a.py::f: lines improved from 70 to within the ceiling; "
-        "run with --update to shrink the baseline",
+        (
+            "a.py::f: cyclomatic improved from 12 to 11; "
+            "run with --update to shrink the baseline"
+        ),
+        (
+            "a.py::f: lines improved from 70 to within the ceiling; "
+            "run with --update to shrink the baseline"
+        ),
     ]
 
 
