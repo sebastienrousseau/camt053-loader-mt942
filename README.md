@@ -80,7 +80,7 @@ dependency. It is pure Python and runs wherever `camt053` does.
 
 - Python 3.10 or newer, tested in CI on 3.10, 3.11, 3.12, 3.13 and 3.14 on
   Linux ([toolchain policy](docs/POLICIES.md)).
-- `camt053` 0.0.20 or newer, below 1.0. The camt053 suite releases at one
+- `camt053` 0.0.23 or newer, below 1.0. The camt053 suite releases at one
   version, so install the matching `camt053` release alongside this one.
 
 ---

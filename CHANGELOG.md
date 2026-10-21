@@ -38,7 +38,8 @@ fixes, and the gates and documents this repository was missing.
   publish the core's version.
 - The README rendered on PyPI said "Latest release: v0.0.14" in 0.0.16
   and 0.0.20. `scripts/verify_versions.py` now checks every version
-  source on each pull request.
+  source, and the `camt053` floor in `pyproject.toml` and
+  `requirements/*.in`, on each pull request.
 - Six source files, both shipped modules among them, declared
   `Apache-2.0` only although the package is `Apache-2.0 OR MIT`. Every
   file now carries REUSE 3.3 SPDX lines, checked by `reuse lint`; the
@@ -66,8 +67,11 @@ fixes, and the gates and documents this repository was missing.
 ### Changed
 
 - Version aligned to `0.0.23` with the rest of the suite.
-- `camt053` floor raised to `>=0.0.20` (from `>=0.0.16`), the newest
-  core release when this branch was cut.
+- **Requires `camt053` 0.0.23 or newer** (was 0.0.16), still below 1. The
+  suite releases core first at one version, and core 0.0.23 is the first
+  to floor its advised dependencies (`fastapi` 0.109.1 for PYSEC-2024-38,
+  `starlette` 1.3.1, `cryptography` 50.0.0 and others); a lower floor here
+  let an older core resolve, and an affected `fastapi` with it.
 - Every GitHub Action is pinned by commit SHA, CI installs from
   hash-pinned `requirements/*.txt`, and the release builds with a pinned
   hatchling, attaches SLSA build provenance, signs every distribution

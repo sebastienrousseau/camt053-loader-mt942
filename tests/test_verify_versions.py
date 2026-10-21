@@ -13,13 +13,17 @@ import pytest
 SCRIPT = Path(__file__).resolve().parents[1] / "scripts" / "verify_versions.py"
 
 TREE = {
-    "pyproject.toml": '[project]\nversion = "0.0.23"\n',
+    "pyproject.toml": (
+        '[project]\nversion = "0.0.23"\n'
+        'dependencies = [\n    "camt053 >= 0.0.23, < 1",\n]\n'
+    ),
     "camt053_loader_mt942/__init__.py": '__version__ = "0.0.23"\n',
     "CHANGELOG.md": "# Changelog\n\n## [0.0.23] - 2026-10-20\n\n## [0.0.20]\n",
     "releases/v0.0.23.md": "# camt053-loader-mt942 v0.0.23\n",
     "CITATION.cff": 'cff-version: 1.2.0\nversion: "0.0.23"\n',
     "README.md": "> **Latest release: v0.0.23**: a loader.\n",
     "SECURITY.md": "| `0.0.23` | Latest released `0.0.x` only |\n",
+    "requirements/ci.in": "camt053>=0.0.23,<1\n",
 }
 
 
@@ -70,6 +74,23 @@ def test_a_tree_on_one_version_passes(
             "SECURITY.md",
             "| `0.0.20` | Latest released `0.0.x` only |\n",
             "SECURITY.md differs",
+        ),
+        (
+            "pyproject.toml",
+            '[project]\nversion = "0.0.23"\n'
+            'dependencies = [\n    "camt053 >= 0.0.20, < 1",\n]\n',
+            "pyproject.toml camt053 floor differs",
+        ),
+        (
+            "pyproject.toml",
+            '[project]\nversion = "0.0.23"\n'
+            'dependencies = [\n    "camt053",\n]\n',
+            "pyproject.toml has no camt053 floor",
+        ),
+        (
+            "requirements/ci.in",
+            "camt053>=0.0.20,<1\n",
+            "requirements/ci.in camt053 floor differs",
         ),
     ],
 )

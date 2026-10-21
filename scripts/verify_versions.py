@@ -8,7 +8,11 @@ must appear as the package's ``__version__``, as a ``## [X.Y.Z]`` heading in
 ``CHANGELOG.md``, as ``releases/vX.Y.Z.md`` (the release workflow publishes
 it as the GitHub release notes), in ``CITATION.cff`` (``version``), in the
 README's ``Latest release: vX.Y.Z`` line (PyPI renders the README as the
-project page) and as the supported row of ``SECURITY.md``.
+project page) and as the supported row of ``SECURITY.md``. It is also the
+``camt053 >=`` floor in ``pyproject.toml`` and in every ``requirements/*.in``
+that declares one: the camt053 suite releases together at one version, core
+first, so a lower floor lets an older core, and the older advisory floors it
+declares, resolve under this release.
 
 The README said "Latest release: v0.0.14" through 0.0.16 and 0.0.20, and
 SECURITY.md named a version nobody checked, because nothing compared them.
@@ -87,6 +91,27 @@ def _check_security(expected: str) -> Check:
     return _compare("SECURITY.md", found, expected)
 
 
+_FLOOR = re.compile(r'^\s*"?camt053\s*>=\s*([0-9][0-9.]*)', re.MULTILINE)
+
+
+def _check_camt053_floor(expected: str) -> Check:
+    names = ["pyproject.toml"]
+    inputs = ROOT.glob("requirements/*.in")
+    names += sorted(str(p.relative_to(ROOT)) for p in inputs)
+    lines: list[str] = []
+    problems: list[str] = []
+    for name in names:
+        floors = _FLOOR.findall(_read(name) or "")
+        if not floors and name == "pyproject.toml":
+            lines.append(f"  {'pyproject.toml floor':<22} = None")
+            problems.append("pyproject.toml has no camt053 floor")
+        for floor in floors:
+            found, errors = _compare(f"{name} camt053 floor", floor, expected)
+            lines += found
+            problems += errors
+    return lines, problems
+
+
 CHECKS: tuple[Callable[[str], Check], ...] = (
     _check_package,
     _check_changelog,
@@ -94,6 +119,7 @@ CHECKS: tuple[Callable[[str], Check], ...] = (
     _check_citation,
     _check_readme,
     _check_security,
+    _check_camt053_floor,
 )
 
 
