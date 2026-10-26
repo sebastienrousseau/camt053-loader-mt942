@@ -2,7 +2,11 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 # Advisory audit for the CI "Audit" job, which runs pip-audit over the
 # hash-pinned ci.txt (the runtime dependency and the whole toolchain).
+# Only the Audit job installs it, on Python 3.12, so it is compiled for 3.12.
 # Regenerate:
-#   uv pip compile --generate-hashes --universal --python-version 3.10 \
+#   uv pip compile --generate-hashes --universal --python-version 3.12 \
 #     requirements/audit.in -o requirements/audit.txt
 pip-audit>=2.9
+# filelock <= 4.2.0 (pulled in by pip-audit's cachecontrol): GHSA-9vhv-jxww-xfm5,
+# GHSA-567q-5qvw-pf92 and GHSA-v4x8-3wr5-3wq8; 4.2.1 needs Python 3.11.
+filelock>=4.2.1

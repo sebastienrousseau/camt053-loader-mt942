@@ -12,6 +12,16 @@ suite (`camt053`, `camt053-mcp`, `camt053-lsp`, `camt053-writer-xlsx`,
 `camt053-loader-mt940`); a `0.0.X` release of this package targets the
 `0.0.X` release of `camt053`.
 
+## [Unreleased]
+
+### Security
+
+- `requirements/audit.txt`, the hash-pinned pip-audit for the CI audit
+  job, pinned filelock 4.1.0 on Python 3.10 (GHSA-9vhv-jxww-xfm5,
+  GHSA-567q-5qvw-pf92, GHSA-v4x8-3wr5-3wq8). Only that job installs it,
+  on Python 3.12, so `audit.in` floors `filelock >= 4.2.1` and the tree is
+  compiled for 3.12.
+
 ## [0.0.23] - 2026-10-20
 
 Suite release with `camt053` 0.0.23, which releases first. Two parser
