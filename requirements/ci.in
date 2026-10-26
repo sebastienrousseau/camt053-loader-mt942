@@ -11,7 +11,7 @@
 camt053>=0.0.23,<1
 pytest>=9.0.3,<10
 pytest-cov>=6.0.0,<8
-ruff>=0.17,<0.18
+ruff>=0.17.2,<0.18
 mypy>=1.11,<3
 interrogate>=1.7
 packaging>=23.0

@@ -22,6 +22,15 @@ suite (`camt053`, `camt053-mcp`, `camt053-lsp`, `camt053-writer-xlsx`,
   on Python 3.12, so `audit.in` floors `filelock >= 4.2.1` and the tree is
   compiled for 3.12.
 
+### Changed
+
+- `requirements/ci.in` floors `ruff >= 0.17.2`, and `ci.txt` moves
+  hypothesis to 6.170.8 on Python 3.11+ (6.168.5 stays on 3.10, the last
+  release that supports it), in place of Dependabot #16 and #17. Their
+  recompiles were not universal and failed the Python 3.10 tests, and
+  #15's had already dropped the per-Python markers from `ci.txt`; the
+  universal compile restores them.
+
 ## [0.0.23] - 2026-10-20
 
 Suite release with `camt053` 0.0.23, which releases first. Two parser
