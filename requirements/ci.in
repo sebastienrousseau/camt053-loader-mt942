@@ -25,4 +25,4 @@ reuse>=5.0
 # (absent on stock macOS); charset-normalizer is its pure-Python fallback.
 charset-normalizer>=3.0
 # Property-based fuzzing: tests/test_fuzz.py.
-hypothesis>=6.100
+hypothesis>=6.170.8
