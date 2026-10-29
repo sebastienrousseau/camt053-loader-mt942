@@ -27,9 +27,9 @@ attrs==26.1.0 \
     # via
     #   jsonschema
     #   referencing
-camt053==0.0.23 \
-    --hash=sha256:390edeaba1c7915d1b7237c38ef47a3f1a540e714f1260cce6f9422491fd7f78 \
-    --hash=sha256:4f37f08cfb0d3febe5eedb92660a7ebe2087fd4c8baf5fa9808c4ad4f8cefc90
+camt053==0.0.24 \
+    --hash=sha256:38328f1062fc239b6146f440432b69d4eedb1b86f196e417e83a7c39f4d58bf9 \
+    --hash=sha256:f9a353818ebdc6db7e8cb04c72ec73250f9a6a50697cc4e444dd28350a51e78d
     # via -r requirements/fuzz.in
 certifi==2026.10.19 \
     --hash=sha256:035c1e85572b141bf1c3a3eff0e33a8eb74917522f2559075ff8d2fea780a1ae \

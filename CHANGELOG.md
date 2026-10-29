@@ -12,7 +12,7 @@ suite (`camt053`, `camt053-mcp`, `camt053-lsp`, `camt053-writer-xlsx`,
 `camt053-loader-mt940`); a `0.0.X` release of this package targets the
 `0.0.X` release of `camt053`.
 
-## [0.0.24] - 2026-10-27
+## [0.0.24] - 2026-10-29
 
 Suite release with `camt053` 0.0.24, which releases first. Every member
 drops Python 3.10 and requires the 0.0.24 core. Parsing is unchanged.
@@ -40,6 +40,9 @@ drops Python 3.10 and requires the 0.0.24 core. Parsing is unchanged.
 
 ### Changed
 
+- Requires `camt053 >= 0.0.24, < 1` in `pyproject.toml` and
+  `requirements/{ci,fuzz}.in`, and the hash-pinned
+  requirement files pin the published camt053 0.0.24.
 - `requirements/ci.in` floors `ruff >= 0.17.2`, and `ci.txt` moves
   hypothesis to 6.170.8 on Python 3.11+ (6.168.5 stays on 3.10, the last
   release that supports it), in place of Dependabot #16 and #17. Their
