@@ -66,7 +66,7 @@
 pip install camt053-loader-mt942
 ```
 
-> **Latest release: v0.0.24.** SWIFT MT942 (the intraday sibling of
+> **Latest release: v0.0.25.** SWIFT MT942 (the intraday sibling of
 > MT940) is scheduled for retirement in November 2028. This loader covers
 > the window where banks still produce MT942 but downstream tooling
 > expects camt.052.
