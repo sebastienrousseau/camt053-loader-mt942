@@ -31,7 +31,7 @@ classifiers = [
 ]
 
 dependencies = [
-    "camt053 >= 0.0.24, < 1",
+    "camt053 >= 0.0.25, < 1",
 ]
 
 [project.optional-dependencies]
