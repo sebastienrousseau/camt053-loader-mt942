@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: "Release tag to publish (e.g. v0.0.23)"
+        description: "Release tag to publish (e.g. v0.0.24)"
         required: true
 
 # Least privilege at the top level; the job opts into only what it needs.

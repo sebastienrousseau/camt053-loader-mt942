@@ -12,7 +12,23 @@ suite (`camt053`, `camt053-mcp`, `camt053-lsp`, `camt053-writer-xlsx`,
 `camt053-loader-mt940`); a `0.0.X` release of this package targets the
 `0.0.X` release of `camt053`.
 
-## [Unreleased]
+## [0.0.24] - 2026-10-29
+
+Suite release with `camt053` 0.0.24, which releases first. Every member
+drops Python 3.10 and requires the 0.0.24 core. Parsing is unchanged.
+
+### Removed
+
+- **Python 3.10 is no longer supported; the floor is 3.11.** This is a
+  decision for the whole camt053 suite: 3.10 reaches end of life in
+  October 2026, and current Hypothesis releases need 3.11. The CI matrix
+  is 3.11 to 3.14, ruff and mypy target 3.11, the `tomli` backport and
+  the 3.10 `tomllib` fallback in `scripts/check_suite_consistency.py` are
+  gone, and `requirements/ci.txt` and `build.txt` are compiled for 3.11.
+  `ci.txt` now pins one Hypothesis (6.170.8) and drops the 3.10-era
+  websockets 16.1.1, rpds-py 0.30.0 and starlette 1.7.0 pins; starlette
+  is 1.10.0 in `ci.txt` and `fuzz.txt`. On 3.10, pip keeps resolving
+  0.0.23.
 
 ### Security
 
@@ -24,6 +40,9 @@ suite (`camt053`, `camt053-mcp`, `camt053-lsp`, `camt053-writer-xlsx`,
 
 ### Changed
 
+- Requires `camt053 >= 0.0.24, < 1` in `pyproject.toml` and
+  `requirements/{ci,fuzz}.in`, and the hash-pinned
+  requirement files pin the published camt053 0.0.24.
 - `requirements/ci.in` floors `ruff >= 0.17.2`, and `ci.txt` moves
   hypothesis to 6.170.8 on Python 3.11+ (6.168.5 stays on 3.10, the last
   release that supports it), in place of Dependabot #16 and #17. Their

@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 [project]
 name = "camt053-loader-mt942"
-version = "0.0.23"
+version = "0.0.24"
 description = "Convert legacy SWIFT MT942 interim transaction reports to camt.052 ParsedDocument."
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 license = "Apache-2.0 OR MIT"
 authors = [{ name = "Sebastien Rousseau", email = "sebastian.rousseau@gmail.com" }]
 keywords = [
@@ -23,7 +23,6 @@ classifiers = [
     "Intended Audience :: Financial and Insurance Industry",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
@@ -32,7 +31,7 @@ classifiers = [
 ]
 
 dependencies = [
-    "camt053 >= 0.0.23, < 1",
+    "camt053 >= 0.0.24, < 1",
 ]
 
 [project.optional-dependencies]
@@ -44,7 +43,6 @@ dev = [
     "mypy >= 1.11, < 3",
     "interrogate >= 1.7",
     "packaging >= 23.0",
-    "tomli >= 2.0 ; python_version < '3.11'",
     "radon >= 6.0",
     "complexipy >= 8.1",
     "reuse >= 5.0",
@@ -71,7 +69,7 @@ packages = ["camt053_loader_mt942"]
 # exists to make. It is maintained centrally and formatted there.
 extend-exclude = ["tests/test_suite_conformance.py"]
 line-length = 80
-target-version = "py310"
+target-version = "py311"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "C4", "UP", "N", "SIM"]
@@ -111,16 +109,9 @@ ignore-magic = true
 verbose = 1
 
 [tool.mypy]
-python_version = "3.10"
+python_version = "3.11"
 strict = true
 
 [[tool.mypy.overrides]]
 module = "camt053.*"
-ignore_missing_imports = true
-
-[[tool.mypy.overrides]]
-# tomli is the 3.10 fallback for tomllib in scripts/check_suite_consistency.py.
-# mypy targets 3.10 and so checks that branch, but CI type-checks on 3.12,
-# where requirements/ci.txt does not install tomli.
-module = "tomli"
 ignore_missing_imports = true

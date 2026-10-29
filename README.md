@@ -17,7 +17,7 @@
   <a href="docs/index.md"><img src="https://img.shields.io/badge/docs-source-blue?style=for-the-badge&labelColor=555555&logo=readthedocs" alt="Docs" height="28" /></a>
   <a href="https://scorecard.dev/viewer/?uri=github.com/sebastienrousseau/camt053-loader-mt942"><img src="https://img.shields.io/ossf-scorecard/github.com/sebastienrousseau/camt053-loader-mt942?style=for-the-badge&label=OpenSSF%20Scorecard&logo=openssf" alt="OpenSSF Scorecard" height="28" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0%20OR%20MIT-blue.svg?style=for-the-badge" alt="License: Apache-2.0 OR MIT" height="28" /></a>
-  <a href="https://github.com/sebastienrousseau/camt053-loader-mt942/blob/main/docs/POLICIES.md"><img src="https://img.shields.io/badge/Python-3.10%2B-93450a.svg?style=for-the-badge&logo=python" alt="Python 3.10 or newer" height="28" /></a>
+  <a href="https://github.com/sebastienrousseau/camt053-loader-mt942/blob/main/docs/POLICIES.md"><img src="https://img.shields.io/badge/Python-3.11%2B-93450a.svg?style=for-the-badge&logo=python" alt="Python 3.11 or newer" height="28" /></a>
 </p>
 
 <p align="center">
@@ -66,7 +66,7 @@
 pip install camt053-loader-mt942
 ```
 
-> **Latest release: v0.0.23.** SWIFT MT942 (the intraday sibling of
+> **Latest release: v0.0.24.** SWIFT MT942 (the intraday sibling of
 > MT940) is scheduled for retirement in November 2028. This loader covers
 > the window where banks still produce MT942 but downstream tooling
 > expects camt.052.
@@ -78,9 +78,9 @@ dependency. It is pure Python and runs wherever `camt053` does.
 
 ## Requirements
 
-- Python 3.10 or newer, tested in CI on 3.10, 3.11, 3.12, 3.13 and 3.14 on
+- Python 3.11 or newer, tested in CI on 3.11, 3.12, 3.13 and 3.14 on
   Linux ([toolchain policy](docs/POLICIES.md)).
-- `camt053` 0.0.23 or newer, below 1.0. The camt053 suite releases at one
+- `camt053` 0.0.24 or newer, below 1.0. The camt053 suite releases at one
   version, so install the matching `camt053` release alongside this one.
 
 ---
@@ -280,7 +280,7 @@ make demo     # re-render .github/demo.gif (needs vhs)
 a 100% line and branch coverage gate, the 100% docstring gate, the
 complexity ceilings against `complexity-baseline.json`, `reuse lint`, the
 version-source check, the benchmark and the examples. CI also runs the
-test matrix on Python 3.10 to 3.14, `pip-audit` over the pinned
+test matrix on Python 3.11 to 3.14, `pip-audit` over the pinned
 requirements, CodeQL, OpenSSF Scorecard, Atheris fuzzing of `parse_mt942`
 (two minutes per change, 30 minutes weekly) and a daily suite-consistency
 check against PyPI. Hypothesis property tests in the suite assert the same
