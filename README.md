@@ -66,7 +66,7 @@
 pip install camt053-loader-mt942
 ```
 
-> **Latest release: v0.0.24.** SWIFT MT942 (the intraday sibling of
+> **Latest release: v0.0.25.** SWIFT MT942 (the intraday sibling of
 > MT940) is scheduled for retirement in November 2028. This loader covers
 > the window where banks still produce MT942 but downstream tooling
 > expects camt.052.
@@ -80,7 +80,7 @@ dependency. It is pure Python and runs wherever `camt053` does.
 
 - Python 3.11 or newer, tested in CI on 3.11, 3.12, 3.13 and 3.14 on
   Linux ([toolchain policy](docs/POLICIES.md)).
-- `camt053` 0.0.24 or newer, below 1.0. The camt053 suite releases at one
+- `camt053` 0.0.25 or newer, below 1.0. The camt053 suite releases at one
   version, so install the matching `camt053` release alongside this one.
 
 ---

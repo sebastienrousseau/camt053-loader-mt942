@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 [project]
 name = "camt053-loader-mt942"
-version = "0.0.24"
+version = "0.0.25"
 description = "Convert legacy SWIFT MT942 interim transaction reports to camt.052 ParsedDocument."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -31,7 +31,7 @@ classifiers = [
 ]
 
 dependencies = [
-    "camt053 >= 0.0.24, < 1",
+    "camt053 >= 0.0.25, < 1",
 ]
 
 [project.optional-dependencies]
