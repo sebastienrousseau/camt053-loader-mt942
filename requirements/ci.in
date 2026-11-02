@@ -12,7 +12,7 @@ camt053>=0.0.25,<1
 pytest>=9.0.3,<10
 pytest-cov>=6.0.0,<8
 ruff>=0.17.2,<0.18
-mypy>=1.11,<3
+mypy>=2.4.1,<3
 interrogate>=1.7
 packaging>=23.0
 # Complexity gate: scripts/check_complexity.py (radon + complexipy).
