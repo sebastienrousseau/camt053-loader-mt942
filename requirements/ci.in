@@ -17,7 +17,7 @@ interrogate>=1.7
 packaging>=23.0
 # Complexity gate: scripts/check_complexity.py (radon + complexipy).
 radon>=6.0
-complexipy>=8.1
+complexipy>=8.3.0
 # Licensing gate: `reuse lint` (REUSE 3.3).
 reuse>=5.0
 # reuse detects encodings with python-magic, which needs the system libmagic
