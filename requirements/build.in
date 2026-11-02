@@ -8,5 +8,5 @@
 #   uv pip compile --generate-hashes --universal --python-version 3.11 \
 #     requirements/build.in -o requirements/build.txt
 build>=1.2
-hatchling>=1.27
+hatchling>=1.33.0
 twine>=6.1
