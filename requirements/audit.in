@@ -9,4 +9,4 @@
 pip-audit>=2.9
 # filelock <= 4.2.0 (pulled in by pip-audit's cachecontrol): GHSA-9vhv-jxww-xfm5,
 # GHSA-567q-5qvw-pf92 and GHSA-v4x8-3wr5-3wq8; 4.2.1 needs Python 3.11.
-filelock>=4.2.1
+filelock>=4.2.9
