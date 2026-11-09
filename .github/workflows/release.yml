@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: "Release tag to publish (e.g. v0.0.25)"
+        description: "Release tag to publish (e.g. v0.0.26)"
         required: true
 
 # Least privilege at the top level; the job opts into only what it needs.
@@ -71,7 +71,7 @@ jobs:
       # release as .sig + .pem. After the PyPI upload, so only the
       # distributions themselves reach PyPI.
       - name: Install cosign
-        uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
+        uses: sigstore/cosign-installer@756fe2d284c7292c4e9b62c8a28f1e5629c59532 # v4.1.3
         with:
           cosign-release: "v2.4.3"
 

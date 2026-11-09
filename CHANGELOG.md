@@ -12,6 +12,22 @@ suite (`camt053`, `camt053-mcp`, `camt053-lsp`, `camt053-writer-xlsx`,
 `camt053-loader-mt940`); a `0.0.X` release of this package targets the
 `0.0.X` release of `camt053`.
 
+## [0.0.26] - 2026-11-09
+
+The camt053 suite's 0.0.26 release, core first. Parsing is unchanged.
+camt053 0.0.26 moves its REST stack (fastapi, uvicorn and the packages
+they bring) into a `camt053[api]` extra, so installing this loader no
+longer installs a web server; this loader never used it.
+
+### Changed
+
+- Requires `camt053 >= 0.0.26, < 1` in `pyproject.toml` and
+  `requirements/{ci,fuzz}.in`; the hash-pinned requirement files pin
+  the published camt053 0.0.26.
+- Development tools: ruff 0.17.4, reuse 6.3.0 and filelock 4.2.9
+  (Dependabot #37 to #42); CodeQL 4.39.3 and cosign-installer 4.1.3
+  (Dependabot #36).
+
 ## [0.0.25] - 2026-10-29
 
 The camt053 suite's 0.0.25 release, core first. The suite moves
